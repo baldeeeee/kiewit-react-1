@@ -16,7 +16,7 @@ class Courses extends React.Component {
   renderTable() {
     return (
       <>
-        <Link to="course" className="btn btn-primary">
+        <Link to="managecourse" className="btn btn-primary">
           Add Course
         </Link>
         <table className="table">
@@ -38,7 +38,7 @@ class Courses extends React.Component {
                 </td>
                 <td>{course.id}</td>
                 <td>
-                  <Link to={"course/" + course.slug}>{course.title}</Link>
+                  <Link to={"managecourse/" + course.slug}>{course.title}</Link>
                 </td>
                 <td>{course.category}</td>
               </tr>

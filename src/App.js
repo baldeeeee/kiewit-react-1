@@ -62,19 +62,7 @@ const App = () => {
       </Switch>
       <Switch>
         <Route
-          path="/managecourse"
-          render={props => (
-            <ManageCourse
-              {...props}
-              loadCourses={loadCourses}
-              courses={courses}
-            />
-          )}
-        />
-      </Switch>{" "}
-      <Switch>
-        <Route
-          path="/course/:slug"
+          path="/managecourse/:slug?"
           render={props => (
             <ManageCourse
               {...props}
