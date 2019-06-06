@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Home from "./Home";
 import Nav from "./Nav";
 import Courses from "./Courses";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import ManageCourse from "./ManageCourse";
 import * as courseApi from "./api/courseApi";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [courses, setCourses] = useState([]);
+  //const [authors, setAuthors] = useState([]);
 
   // Above is equivalent to this:
   // const courseState = useState([]);
@@ -17,12 +18,12 @@ const App = () => {
   // const setCourses = courseState[1];
 
   function loadCourses() {
-    courseApi
+    return courseApi
       .getCourses()
       .then(courses => setCourses(courses))
       .catch(error =>
         toast.error(
-          "🦄 Sorry, loading courses failed. Please try reloading the page. Error:" +
+          "⚠ Sorry, courses failed to load 😳. Please reload and try again. Error:" +
             error.message
         )
       );
@@ -32,10 +33,10 @@ const App = () => {
     try {
       await courseApi.deleteCourse(courseId);
       setCourses(courses.filter(course => course.id !== courseId));
-      toast.success("🦄🦄Course deleted.");
+      toast.success("💥 Course deleted.");
     } catch (error) {
       toast.error(
-        "🦄 Sorry, delete failed. Please reload and try again. Error: " +
+        "Sorry, delete failed 😡. Please reload and try again. Error:" +
           error.message
       );
     }
@@ -45,38 +46,44 @@ const App = () => {
     <>
       <ToastContainer />
       <Nav />
-      <Route path="/" component={Home} exact />
-      <Route
-        path="/courses"
-        render={props => (
-          <Courses
-            loadCourses={loadCourses}
-            deleteCourse={deleteCourse}
-            courses={courses}
-            {...props}
-          />
-        )}
-      />
-      <Route
-        path="/course"
-        render={props => (
-          <ManageCourse
-            {...props}
-            loadCourses={loadCourses}
-            courses={courses}
-          />
-        )}
-      />
-      <Route
-        path="/course/:slug"
-        render={props => (
-          <ManageCourse
-            {...props}
-            loadCourses={loadCourses}
-            courses={courses}
-          />
-        )}
-      />
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route
+          path="/courses"
+          render={props => (
+            <Courses
+              loadCourses={loadCourses}
+              deleteCourse={deleteCourse}
+              courses={courses}
+              {...props}
+            />
+          )}
+        />
+      </Switch>
+      <Switch>
+        <Route
+          path="/managecourse"
+          render={props => (
+            <ManageCourse
+              {...props}
+              loadCourses={loadCourses}
+              courses={courses}
+            />
+          )}
+        />
+      </Switch>{" "}
+      <Switch>
+        <Route
+          path="/course/:slug"
+          render={props => (
+            <ManageCourse
+              {...props}
+              loadCourses={loadCourses}
+              courses={courses}
+            />
+          )}
+        />
+      </Switch>
     </>
   );
 };

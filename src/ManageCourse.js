@@ -3,6 +3,7 @@ import { saveCourse } from "./api/courseApi";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { course } from "./propTypes";
+import { toast } from "react-toastify";
 
 class ManageCourse extends React.Component {
   state = {
@@ -14,17 +15,24 @@ class ManageCourse extends React.Component {
     redirectToCoursesPage: false
   };
 
-  componentDidMount() {
-    // 1. Read the URL
-    // 2. If the URL has a slug, we know we're editing.
-    // 3. Get the course info
+  async componentDidMount() {
+    const { slug } = this.props.match.params;
+    if (slug) {
+      if (!this.props.courses.length) await this.props.loadCourses();
+      const course = this.props.courses.find(course => course.slug === slug);
+      this.setState({ course });
+      // 3. get course info.
+    }
+    debugger;
   }
 
+  // this.handleTitleChange = this.handleTitleChange.bind(this);
+  //}
   handleChange = event => {
     const newCourse = { ...this.state.course };
     newCourse[event.target.name] =
       event.target.name === "authorId"
-        ? parseInt(event.target.value, 10)
+        ? parseInt(event.target.value, 10) //remind JS the Int is base-10, don't accidentally interpret as Hex.
         : event.target.value;
     this.setState({ course: newCourse });
   };
@@ -41,14 +49,19 @@ class ManageCourse extends React.Component {
   handleSubmit = event => {
     event.preventDefault(); // hey browser, don't post back.
     saveCourse(this.state.course).then(() => {
+      //save completed
+      this.props.loadCourses();
       this.setState({ redirectToCoursesPage: true });
+      toast.success("😊 Course saved.");
     });
   };
 
   render() {
-    if (this.state.redirectToCoursesPage) return <Redirect to="courses" />;
+    if (this.state.redirectToCoursesPage) return <Redirect to="/courses" />;
 
     return (
+      //{this.state.redirectToCoursesPage && <Redirect to="courses" />}
+
       <>
         <h1>Manage Course</h1>
         <form onSubmit={this.handleSubmit}>

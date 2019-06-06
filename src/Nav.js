@@ -10,6 +10,9 @@ const Nav = () => {
       <li>
         <Link to="/courses">Courses</Link>
       </li>
+      <li>
+        <Link to="/managecourse">Manage Course</Link>
+      </li>
     </ul>
   );
 };
