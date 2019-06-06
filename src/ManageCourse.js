@@ -1,40 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { saveCourse } from "./api/courseApi";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { course } from "./propTypes";
 import { toast } from "react-toastify";
 
-class ManageCourse extends React.Component {
-  state = {
-    course: {
-      title: "",
-      authorId: null,
-      category: ""
-    },
-    redirectToCoursesPage: false
-  };
+function ManageCourse( {courses, loadCourses, match}) {
+  const [ course, setCourse ] = useState({
+    title: "",
+    authorId: null,
+    category: ""
+  });
+  const [ redirectToCoursesPage, setRedirectToCoursesPage ] = useState(false);
 
-  async componentDidMount() {
-    const { slug } = this.props.match.params;
+  useEffect(() => {
+      const { slug } = match.params;
     if (slug) {
-      if (!this.props.courses.length) await this.props.loadCourses();
-      const course = this.props.courses.find(course => course.slug === slug);
-      this.setState({ course });
-      // 3. get course info.
-    }
-    debugger;
-  }
+      if (!props.courses.length) {
+      const course = courses.find(course => course.slug === slug);
+      setCourse();
+    } else {
 
-  // this.handleTitleChange = this.handleTitleChange.bind(this);
-  //}
-  handleChange = event => {
-    const newCourse = { ...this.state.course };
+    }
+  }, [courses, loadCourses, match.params]);
+
+  function handleChange(event) {
+    const newCourse = { ...course };
     newCourse[event.target.name] =
       event.target.name === "authorId"
         ? parseInt(event.target.value, 10) //remind JS the Int is base-10, don't accidentally interpret as Hex.
         : event.target.value;
-    this.setState({ course: newCourse });
+    setState({ newCourse });
   };
 
   // Hipster.js
@@ -46,12 +42,12 @@ class ManageCourse extends React.Component {
   //     this.setState({ course });
   //   };
 
-  handleSubmit = event => {
+  function handleSubmit(event) {
     event.preventDefault(); // hey browser, don't post back.
-    saveCourse(this.state.course).then(() => {
+    saveCourse(state.course).then(() => {
       //save completed
       this.props.loadCourses();
-      this.setState({ redirectToCoursesPage: true });
+      SetRedirectToCoursesPage(true);
       toast.success("😊 Course saved.");
     });
   };

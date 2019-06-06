@@ -20,7 +20,10 @@ const App = () => {
   function loadCourses() {
     return courseApi
       .getCourses()
-      .then(courses => setCourses(courses))
+      .then(courses => {
+        setCourses(courses);
+        return courses;
+      })
       .catch(error =>
         toast.error(
           "⚠ Sorry, courses failed to load 😳. Please reload and try again. Error:" +
