@@ -7,10 +7,14 @@ import ManageCourse from "./ManageCourse";
 import * as courseApi from "./api/courseApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserContext from "./UserContext";
 
 const App = () => {
   const [courses, setCourses] = useState([]);
-  //const [authors, setAuthors] = useState([]);
+  const userState = useState({
+    id: 1,
+    email: "cory@reactjsconsulting.com"
+  });
 
   // Above is equivalent to this:
   // const courseState = useState([]);
@@ -46,7 +50,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <UserContext.Provider value={userState}>
       <ToastContainer />
       <Nav />
       <Switch>
@@ -73,7 +77,7 @@ const App = () => {
           )}
         />
       </Switch>
-    </>
+    </UserContext.Provider>
   );
 };
 
