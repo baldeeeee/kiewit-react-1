@@ -33,7 +33,7 @@ function Courses({ courses, loadCourses, deleteCourse }) {
               </td>
               <td>{course.id}</td>
               <td>
-                <Link to={"managecourse/" + course.slug}>{course.title}</Link>
+                <Link to={"course/" + course.slug}>{course.title}</Link>
               </td>
               <td>{course.category}</td>
             </tr>
