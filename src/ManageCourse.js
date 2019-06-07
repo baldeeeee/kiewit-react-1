@@ -19,7 +19,8 @@ function ManageCourse({ courses, loadCourses, match }) {
     authorId: null,
     category: ""
   });
-  const [errors, setErrors, ]
+
+  const [errors, setErrors] = useState({});
   const [redirectToCoursesPage, setRedirectToCoursesPage] = useState(false);
 
   // useEffect(() => {
