@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { course } from "./propTypes";
 import { toast } from "react-toastify";
+import { TextInput } from "./shared/TextInput";
 
 function ManageCourse( {courses, loadCourses, match}) {
   const [ course, setCourse ] = useState({
@@ -60,30 +61,22 @@ function ManageCourse( {courses, loadCourses, match}) {
 
       <>
         <h1>Manage Course</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <br />
-            <input
+        <form onSubmit={handleSubmit}>
+          <TextInput
+            label="title"
               id="title"
-              type="text"
               name="title"
-              onChange={this.handleChange}
-              value={this.state.course.title}
+              onChange={handleChange}
+              value={course.title}
             />
-          </div>
-
-          <div>
-            <label htmlFor="authorId">Author Id</label>
-            <br />
-            <input
+          <TextInput
+            title="authorId"
               id="authorId"
               type="text"
               name="authorId"
-              onChange={this.handleChange}
-              value={this.state.course.authorId || ""}
+              onChange={handleChange}
+              value={course.authorId || ""}
             />
-          </div>
 
           <div>
             <label htmlFor="category">Category</label>
