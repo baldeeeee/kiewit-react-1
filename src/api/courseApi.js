@@ -34,7 +34,7 @@ export function deleteCourse(courseId) {
 
 export function saveCourse(course) {
   return fetch(course.id ? `${BASE_URL}${course.id}` : BASE_URL, {
-    method: "POST",
+    method: course.id ? "PUT" : "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(course)
   })

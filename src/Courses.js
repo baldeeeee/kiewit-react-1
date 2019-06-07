@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { course } from "./propTypes";
 import { Link } from "react-router-dom";
@@ -6,14 +6,14 @@ import { Link } from "react-router-dom";
 function Courses({ courses, loadCourses, deleteCourse }) {
   useEffect(() => {
     if (courses.length === 0) loadCourses();
-    //this code will ryn when the component unmounts.
-    return () => console.log("unmounting courses component");
+    // this code will run when the component unmounts
+    return () => console.log("umounting courses component");
   }, [courses, loadCourses]);
 
   return (
     <>
       <h1>Courses</h1>
-      <Link to="managecourse" className="btn btn-primary">
+      <Link to="course" className="btn btn-primary">
         Add Course
       </Link>
       <table className="table">
