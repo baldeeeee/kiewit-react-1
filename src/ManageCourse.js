@@ -13,13 +13,12 @@ function getCourseBySlug(courses, slug) {
   return course;
 }
 
-function ManageCourse({ courses, loadCourses, match }) {
+function ManageCourse({ courses, loadCourses, match, history }) {
   const [course, setCourse] = useState({
     title: "",
     authorId: null,
     category: ""
   });
-
   const [errors, setErrors] = useState({});
   const [redirectToCoursesPage, setRedirectToCoursesPage] = useState(false);
 
@@ -42,13 +41,15 @@ function ManageCourse({ courses, loadCourses, match }) {
     if (slug) {
       if (courses.length === 0) {
         loadCourses().then(_courses => {
-          setCourse(getCourseBySlug(_courses, slug));
+          const course = getCourseBySlug(_courses, slug);
+          course ? setCourse(course) : history.push("/404");
         });
       } else {
-        setCourse(getCourseBySlug(courses, slug));
+        const course = getCourseBySlug(courses, slug);
+        course ? setCourse(course) : history.push("/404");
       }
     }
-  }, [courses, loadCourses, match.params]);
+  }, [courses, history, loadCourses, match.params]);
 
   function handleChange(event) {
     const newCourse = { ...course };
@@ -71,10 +72,10 @@ function ManageCourse({ courses, loadCourses, match }) {
   function isValid() {
     const _errors = {};
     if (!course.title) _errors.title = "Title required.";
-    if (!course.authorId) _errors.authorId = "Author ID required.";
+    if (!course.authorId) _errors.authorId = "Author Id required.";
     if (!course.category) _errors.category = "Category required.";
 
-    //if errors is still an empty object, then return true.
+    // if errors is still an empty object, then return true.
     setErrors(_errors);
     return Object.keys(_errors).length === 0;
   }
@@ -108,6 +109,7 @@ function ManageCourse({ courses, loadCourses, match }) {
         <TextInput
           title="Author Id"
           id="authorId"
+          label="Author ID"
           name="authorId"
           onChange={handleChange}
           value={course.authorId || ""}
@@ -117,6 +119,7 @@ function ManageCourse({ courses, loadCourses, match }) {
         <TextInput
           title="category"
           id="category"
+          label="Category"
           name="category"
           onChange={handleChange}
           value={course.category}
